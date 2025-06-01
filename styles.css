@@ -1,0 +1,460 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden; /* Evita rolagem horizontal indesejada */
+}
+
+/* Base para todas as páginas */
+.page {
+    width: 100%;
+    min-height: 100vh; /* Usa min-height para permitir que o conteúdo se estenda se precisar */
+    background-color: rgb(5, 3, 26); /* Cor de fundo padrão da página 1 */
+    position: relative;
+    display: flex; /* Para flexibilizar o layout em telas menores */
+    flex-direction: column; /* Conteúdo em coluna por padrão */
+    justify-content: flex-start; /* Alinha o conteúdo ao topo */
+    align-items: flex-start; /* Alinha o conteúdo à esquerda */
+    padding: 70px; /* Padding geral para todas as seções por padrão */
+    box-sizing: border-box; /* Garante que o padding não aumente a largura/altura */
+}
+
+/* Estilo específico para as outras páginas */
+#pagina2,
+#pagina3,
+#pagina4 {
+    background: linear-gradient(180deg, rgba(5,3,26,1) 0%, rgba(10,10,30,1) 100%);
+    color: white;
+}
+
+/* Configurando o canvas para cobrir toda a seção */
+#starsCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none; /* Não interfere com cliques ou seleção de texto */
+    z-index: 0; /* Garante que o canvas fique atrás do conteúdo */
+}
+
+/* --- Header Title (Bernardo Paranhos, Desenvolvedor Frontend, Descrição) --- */
+.header-title {
+    position: relative;
+    color: white;
+    text-align: left;
+    width: 100%;
+    max-width: 500px;
+    z-index: 1;
+}
+
+.site-title {
+    margin: 0;
+    padding: 0;
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.site-subtitle {
+    margin: 0;
+    padding: 0;
+    font-size: 28px;
+    font-weight: 300;
+    margin-top: 10px;
+    line-height: 1.2;
+}
+
+.site-description {
+    font-size: 30px;
+    font-weight: 300;
+    margin-top: 20px;
+    line-height: 1.4;
+    color: #cccccc;
+}
+
+/* --- Mensagem à direita --- */
+.mensagem-direita {
+    position: relative;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.6;
+    text-align: right;
+    opacity: 0.7;
+    margin-top: 80px;
+    width: 100%;
+    max-width: 450px;
+    align-self: flex-end;
+    z-index: 1;
+}
+
+/* --- Links Inferiores (SOBRE, PROJETOS, Ícones Sociais, Localização) --- */
+.links-inferiores {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: 'Outfit', sans-serif;
+    margin-top: auto; /* Empurra para baixo em um container flex - AJUSTADO ABAIXO NAS MEDIA QUERIES */
+    width: 100%;
+    z-index: 1;
+}
+
+.link-inferior {
+    position: relative;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 24px;
+    font-weight: 400;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.link-inferior::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 1px;
+    background-color: white;
+    opacity: 0.5;
+}
+
+/* Estilo para o container dos ícones e localização */
+.social-icons-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 15px;
+    align-items: center;
+}
+
+.social-icon {
+    width: 24px;
+    height: 24px;
+    fill: #ffffff;
+}
+
+.location-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 400;
+    padding-left: 48px;
+}
+
+.location-icon {
+    width: 24px;
+    height: 24px;
+    fill: #ffffff;
+}
+
+/* --- Scroll Indicator Vertical --- */
+.scroll-indicator-vertical {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Outfit', sans-serif;
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.scroll-text-vertical {
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.scroll-line-vertical {
+    width: 1px;
+    height: 65px;
+    background-color: rgba(159, 154, 154, 0.3);
+}
+
+
+/* --- Media Queries para Responsividade --- */
+
+/* Telas MUITO pequenas (celulares em modo retrato, ~320px a 480px) */
+@media (max-width: 480px) {
+    .page {
+        padding: 20px;
+        justify-content: space-between;
+    }
+
+    .header-title {
+        width: 100%;
+        max-width: none;
+    }
+    .site-title {
+        font-size: 32px;
+        line-height: 1.2;
+    }
+    .site-subtitle {
+        font-size: 18px;
+        margin-top: 5px;
+        line-height: 1.3;
+    }
+    .site-description {
+        font-size: 16px;
+        margin-top: 15px;
+        line-height: 1.5;
+    }
+
+    .mensagem-direita {
+        margin-top: 30px;
+        width: 100%;
+        max-width: none;
+        text-align: left;
+        font-size: 16px;
+        opacity: 1;
+        order: 1;
+    }
+
+    .links-inferiores {
+        margin-top: 20px; /* *** REDUZIDO para subir em telas pequenas *** */
+        width: 100%;
+        gap: 10px;
+        order: 2;
+    }
+    .link-inferior {
+        font-size: 16px;
+        gap: 8px;
+    }
+    .link-inferior::before {
+        width: 14px;
+    }
+    .social-icons-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin-top: 10px;
+    }
+    .social-icon {
+        width: 20px;
+        height: 20px;
+    }
+    .location-info {
+        font-size: 16px;
+        padding-left: 0;
+        margin-top: 0;
+    }
+    .location-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .scroll-indicator-vertical {
+        display: none;
+    }
+}
+
+/* Telas pequenas (celulares grandes e tablets em retrato, ~481px a 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .page {
+        padding: 40px;
+    }
+
+    .header-title {
+        width: 100%;
+    }
+    .site-title {
+        font-size: 42px;
+    }
+    .site-subtitle {
+        font-size: 22px;
+    }
+    .site-description {
+        font-size: 20px;
+    }
+
+    .mensagem-direita {
+        margin-top: 50px;
+        width: 100%;
+        text-align: left;
+        font-size: 20px;
+        opacity: 1;
+        order: 1;
+    }
+
+    .links-inferiores {
+        margin-top: 30px; /* *** REDUZIDO para subir em telas médias *** */
+        width: 100%;
+        gap: 15px;
+        order: 2;
+    }
+    .link-inferior {
+        font-size: 20px;
+    }
+    .social-icons-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 15px;
+        align-items: center;
+    }
+    .location-info {
+        font-size: 20px;
+        padding-left: 0;
+        margin-top: 0;
+    }
+}
+
+/* Telas médias (tablets em paisagem e notebooks pequenos, ~769px a 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .page {
+        padding: 50px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .header-title {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: calc(50% - 25px);
+        padding-right: 20px;
+        max-width: none;
+    }
+    .site-title {
+        font-size: 48px;
+    }
+    .site-subtitle {
+        font-size: 24px;
+    }
+    .site-description {
+        font-size: 24px;
+    }
+
+    .mensagem-direita {
+        position: relative;
+        top: 0;
+        right: 0;
+        width: calc(50% - 25px);
+        text-align: right;
+        font-size: 24px;
+        opacity: 0.7;
+        margin-top: 0;
+        padding-left: 20px;
+        align-self: flex-start;
+    }
+
+    .links-inferiores {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        margin-top: auto; /* Mantido para empurrar para o final */
+        width: 100%;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        padding-top: 20px; /* *** REDUZIDO para subir, diminui o espaçamento em cima dele *** */
+    }
+    .link-inferior {
+        font-size: 22px;
+        gap: 12px;
+    }
+    .location-info {
+        font-size: 22px;
+        padding-left: 0;
+        margin-top: 0;
+    }
+    .social-icons-container {
+        margin-top: 0;
+        gap: 25px;
+    }
+
+    .scroll-indicator-vertical {
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+    }
+}
+
+/* Telas grandes (desktops padrão e maiores, a partir de 1025px) */
+@media (min-width: 1025px) {
+    .page {
+        padding: 70px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .header-title {
+        position: absolute;
+        top: 70px;
+        left: 70px;
+        width: auto;
+        max-width: 500px;
+    }
+    .site-title {
+        font-size: 56px;
+    }
+    .site-subtitle {
+        font-size: 28px;
+    }
+    .site-description {
+        font-size: 30px;
+    }
+
+    .mensagem-direita {
+        position: absolute;
+        top: 130px;
+        right: 150px;
+        width: 450px;
+        text-align: right;
+        font-size: 28px;
+        opacity: 0.7;
+        margin-top: 0;
+        align-self: auto;
+    }
+
+    .links-inferiores {
+        position: absolute;
+        bottom: 70px; /* *** REDUZIDO para subir em telas grandes *** */
+        left: 70px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: auto;
+        margin-top: 0;
+        gap: 20px;
+    }
+    .link-inferior {
+        font-size: 24px;
+        gap: 10px;
+    }
+    .location-info {
+        font-size: 24px;
+        padding-left: 48px;
+        margin-top: 15px;
+    }
+
+    .scroll-indicator-vertical {
+        display: flex;
+    }
+}
+
