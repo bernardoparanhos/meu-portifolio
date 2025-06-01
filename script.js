@@ -2,25 +2,38 @@ const canvas = document.getElementById('starsCanvas');
 const ctx = canvas.getContext('2d');
 
 // --- Ajustes Estrelas (do seu código anterior) ---
-const numStars = 60;
+// Removendo 'numStars' como constante global, pois será dinâmico
 const minSpeedX = 1.5;
 const maxSpeedX = 3.5;
 const speedYRange = 0.2;
 // --------------------
 
 let stars = [];
+let currentNumStars = 60; // Valor inicial para telas grandes, será ajustado
 
-// Redimensiona o canvas para ocupar a seção
+// Função para ajustar a quantidade de estrelas baseada no tamanho da tela
+function updateStarQuantity() {
+    if (window.innerWidth <= 480) { // Telas MUITO pequenas (celulares em retrato)
+        currentNumStars = 20; // Exemplo: 20 estrelas
+    } else if (window.innerWidth <= 768) { // Telas pequenas (celulares grandes, tablets em retrato)
+        currentNumStars = 40; // Exemplo: 40 estrelas
+    } else { // Telas maiores (desktops, laptops)
+        currentNumStars = 60; // Quantidade original
+    }
+}
+
+// Redimensiona o canvas para ocupar a seção e recria as estrelas com a nova quantidade
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    createStars();
+    updateStarQuantity(); // Atualiza a quantidade de estrelas antes de criá-las
+    createStars(); // Recria as estrelas com a 'currentNumStars'
 }
 
 // Função para criar as estrelas
 function createStars() {
     stars = [];
-    for (let i = 0; i < numStars; i++) {
+    for (let i = 0; i < currentNumStars; i++) { // Usa a quantidade dinâmica de estrelas
         const speedX = Math.random() * (maxSpeedX - minSpeedX) + minSpeedX;
         const speedY = (Math.random() - 0.5) * speedYRange;
 
@@ -34,9 +47,10 @@ function createStars() {
     }
 }
 
-resizeCanvas();
+// Chamar uma vez no carregamento para configurar o canvas e as estrelas iniciais
+resizeCanvas(); 
+// Adicionar o listener para redimensionamento da janela
 window.addEventListener('resize', resizeCanvas);
-createStars();
 
 // Animação das estrelas
 function animateStars() {
@@ -51,16 +65,19 @@ function animateStars() {
         star.x += star.speedX;
         star.y += star.speedY;
 
+        // Lógica de reaparecimento da estrela quando sai da tela
         if (star.x > canvas.width + star.radius) {
-            star.x = -star.radius;
-            star.y = Math.random() * canvas.height;
+            star.x = -star.radius; // Reaparece do lado esquerdo
+            star.y = Math.random() * canvas.height; // Nova posição Y aleatória
+            // Novas velocidades para variar
             star.speedX = Math.random() * (maxSpeedX - minSpeedX) + minSpeedX;
             star.speedY = (Math.random() - 0.5) * speedYRange;
         }
 
+        // Se sair pela parte superior ou inferior
         if (star.y < -star.radius || star.y > canvas.height + star.radius) {
-            star.y = Math.random() * canvas.height;
-            star.x = -star.radius;
+            star.y = Math.random() * canvas.height; // Reaparece em Y aleatório
+            star.x = -star.radius; // Reaparece do lado esquerdo (melhor para fluxo contínuo)
             star.speedX = Math.random() * (maxSpeedX - minSpeedX) + minSpeedX;
             star.speedY = (Math.random() - 0.5) * speedYRange;
         }
@@ -71,9 +88,8 @@ function animateStars() {
 
 animateStars();
 
-// --- NOVO CÓDIGO PARA O EFEITO DE FADE NA ROLAGEM ---
+// --- CÓDIGO PARA O EFEITO DE FADE NA ROLAGEM (mantido o mesmo) ---
 
-// Seleciona os elementos da página 1 que irão sumir/aparecer
 const headerTitle = document.querySelector('.header-title');
 const mensagemDireita = document.querySelector('.mensagem-direita');
 const linksInferiores = document.querySelector('.links-inferiores');
@@ -82,31 +98,20 @@ const scrollIndicatorVertical = document.querySelector('.scroll-indicator-vertic
 const elementsToFade = [headerTitle, mensagemDireita, linksInferiores, scrollIndicatorVertical];
 
 function handleScrollFade() {
-    const scrollPosition = window.scrollY; // Distância de rolagem do topo
-    const page1Height = window.innerHeight; // Altura total da primeira página (viewport)
+    const scrollPosition = window.scrollY;
+    const page1Height = window.innerHeight;
 
-    // Define a faixa de rolagem onde o fade ocorrerá
-    // O fade começa quando o scroll está em 0% da página 1
-    // E termina quando o scroll atinge 80% da altura da página 1
     const fadeStartThreshold = 0;
-    const fadeEndThreshold = page1Height * 0.8; // 80% da altura da página
+    const fadeEndThreshold = page1Height * 0.8;
 
-    // Calcula o progresso da rolagem dentro da faixa de fade (0 a 1)
     let scrollProgress = (scrollPosition - fadeStartThreshold) / (fadeEndThreshold - fadeStartThreshold);
-
-    // Garante que o progresso esteja entre 0 e 1
     scrollProgress = Math.max(0, Math.min(1, scrollProgress));
 
-    // Calcula a nova opacidade (de 1 para 0 conforme rola para baixo)
     const newOpacity = 1 - scrollProgress;
 
-    // Aplica a nova opacidade e ajusta o 'pointer-events'
     elementsToFade.forEach(element => {
-        if (element) { // Garante que o elemento exista antes de manipular
+        if (element) {
             element.style.opacity = newOpacity;
-
-            // Desabilita eventos de mouse quando o elemento está quase invisível
-            // Isso evita que elementos invisíveis bloqueiem cliques em conteúdo abaixo
             if (newOpacity <= 0.05) {
                 element.style.pointerEvents = 'none';
             } else {
@@ -116,9 +121,5 @@ function handleScrollFade() {
     });
 }
 
-// Adiciona o event listener para o evento de rolagem
 window.addEventListener('scroll', handleScrollFade);
-
-// Chama a função uma vez ao carregar a página
-// Isso garante que a opacidade inicial esteja correta caso a página seja carregada já rolada
 document.addEventListener('DOMContentLoaded', handleScrollFade);
