@@ -5,23 +5,27 @@
     box-sizing: border-box;
 }
 
+
+
 body {
     font-family: 'Outfit', sans-serif;
-    overflow-x: hidden; /* Evita rolagem horizontal indesejada */
+    overflow-x: hidden; /* Mantive esta propriedade para evitar rolagem horizontal indesejada */
 }
 
 /* Base para todas as páginas */
 .page {
     width: 100%;
-    min-height: 100vh; /* Mantido para telas maiores, mas revisaremos nas media queries */
+    min-height: 100vh; /* Cada página ocupa pelo menos a altura total da viewport */
     background-color: rgb(5, 3, 26); /* Cor de fundo padrão da página 1 */
     position: relative;
-    display: flex; /* Para flexibilizar o layout em telas menores */
+    display: flex;
     flex-direction: column; /* Conteúdo em coluna por padrão */
-    justify-content: flex-start; /* Alinha o conteúdo ao topo */
-    align-items: flex-start; /* Alinha o conteúdo à esquerda */
+    justify-content: flex-start; /* Alinha o conteúdo ao topo (ajustável por media query) */
+    align-items: flex-start; /* Alinha o conteúdo à esquerda (ajustável por media query) */
     padding: 70px; /* Padding geral para todas as seções por padrão */
-    box-sizing: border-box; /* Garante que o padding não aumente a largura/altura */
+    box-sizing: border-box;
+    overflow-y: auto; /* Permite rolagem interna se o conteúdo exceder a altura */
+    /* overflow-x: hidden; Este já está no body, pode ser redundante aqui se o corpo já o tiver. */
 }
 
 /* Estilo específico para as outras páginas */
@@ -32,26 +36,18 @@ body {
     color: white;
 }
 
-/* Configurando o canvas para cobrir toda a seção */
-#starsCanvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    pointer-events: none; /* Não interfere com cliques ou seleção de texto */
-    z-index: 0; /* Garante que o canvas fique atrás do conteúdo */
-}
+/* REMOVIDO: Configurações do canvas para estrelas (se houver um canvas no HTML, ele não terá estilo) */
+
 
 /* --- Header Title (Bernardo Paranhos, Desenvolvedor Frontend, Descrição) --- */
 .header-title {
-    position: relative;
+    position: relative; /* Mantido como relative para se adaptar melhor a media queries anteriores */
     color: white;
-    text-align: left;
+    text-align: left; /* Padrão left */
     width: 100%;
     max-width: 500px;
     z-index: 1;
+    margin-top: 0; /* Começa do topo do padding da .page */
 }
 
 .site-title {
@@ -81,30 +77,31 @@ body {
 
 /* --- Mensagem à direita --- */
 .mensagem-direita {
-    position: relative;
+    position: relative; /* Mantido como relative para se adaptar melhor a media queries anteriores */
     color: #ffffff;
     font-size: 28px;
     font-weight: 300;
     line-height: 1.6;
-    text-align: right;
+    text-align: right; /* Padrão right */
     opacity: 0.7;
     margin-top: 80px; /* Será sobrescrito em telas menores */
     width: 100%;
     max-width: 450px;
-    align-self: flex-end;
+    align-self: flex-end; /* Padrão flex-end */
     z-index: 1;
 }
 
 /* --- Links Inferiores (SOBRE, PROJETOS, Ícones Sociais, Localização) --- */
 .links-inferiores {
-    position: relative;
+    position: relative; /* Mantido como relative para se adaptar melhor a media queries anteriores */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Padrão column */
     gap: 20px;
     font-family: 'Outfit', sans-serif;
-    margin-top: auto; /* Será sobrescrito em telas menores */
+    margin-top: auto; /* Empurra para baixo em telas grandes */
     width: 100%;
     z-index: 1;
+    align-items: flex-start; /* Padrão flex-start */
 }
 
 .link-inferior {
@@ -130,7 +127,7 @@ body {
 /* Estilo para o container dos ícones e localização */
 .social-icons-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; /* Padrão row */
     flex-wrap: wrap;
     gap: 25px;
     margin-top: 15px;
@@ -143,51 +140,6 @@ body {
     fill: #ffffff;
 }
 
-.location-info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5px;
-    color: #ffffff;
-    font-size: 24px;
-    font-weight: 400;
-    padding-left: 48px;
-}
-
-.location-icon {
-    width: 24px;
-    height: 24px;
-    fill: #ffffff;
-}
-
-/* --- Scroll Indicator Vertical --- */
-.scroll-indicator-vertical {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Outfit', sans-serif;
-    color: rgba(255, 255, 255, 0.5);
-    opacity: 1;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.scroll-text-vertical {
-    font-size: 24px;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-}
-
-.scroll-line-vertical {
-    width: 1px;
-    height: 65px;
-    background-color: rgba(159, 154, 154, 0.3);
-}
 
 
 /* --- Media Queries para Responsividade --- */
@@ -195,214 +147,166 @@ body {
 /* Telas MUITO pequenas (celulares em modo retrato, ~320px a 480px) */
 @media (max-width: 480px) {
     .page {
-        padding: 15px; /* Reduzido o padding geral da página */
-        justify-content: flex-start;
-        min-height: auto;
-        height: auto;
+        padding: 20px; /* Padding reduzido para telas menores */
+        padding-top: 30px; /* Mantém o padding no topo para o título */
+        padding-bottom: 20px; /* Mantém o padding na parte de baixo */
+        justify-content: flex-start; /* Conteúdo no topo */
+        align-items: flex-start; /* Conteúdo no canto esquerdo */
     }
 
     .header-title {
-        width: 100%;
-        max-width: none;
-        margin-bottom: 5px; /* Reduzido */
+        max-width: 100%;
+        margin-bottom: 15px; /* Espaço abaixo do título */
+        text-align: left; /* Alinhado à esquerda */
     }
     .site-title {
-        font-size: 30px; /* Um pouco menor */
-        line-height: 1.1;
+        font-size: 30px;
     }
     .site-subtitle {
-        font-size: 16px; /* Um pouco menor */
-        margin-top: 3px; /* Reduzido */
-        line-height: 1.2;
+        font-size: 16px;
+        margin-top: 5px;
     }
     .site-description {
-        font-size: 15px; /* Um pouco menor */
-        margin-top: 8px; /* Reduzido */
-        line-height: 1.4;
-        margin-bottom: 10px; /* Reduzido */
+        font-size: 15px;
+        margin-top: 10px;
+        margin-bottom: 15px; /* Espaço abaixo da descrição */
     }
 
     .mensagem-direita {
-        margin-top: 0; /* Continua em 0 */
-        width: 100%;
-        max-width: none;
-        text-align: left;
-        font-size: 15px; /* Um pouco menor */
-        opacity: 1;
-        order: 1;
-        margin-bottom: 10px; /* Reduzido */
+        margin-top: 20px; /* Reduzido para aproximar mais */
+        max-width: 100%;
+        text-align: left; /* Alinhado à esquerda */
+        font-size: 15px;
+        margin-bottom: 20px; /* Reduzido para aproximar mais o próximo bloco */
+        opacity: 1; /* Aumenta a visibilidade em telas menores */
+        align-self: flex-start; /* Alinha à esquerda */
     }
 
     .links-inferiores {
-        margin-top: 0; /* Continua em 0 */
+        margin-top: 70px; /* Ajuste para afastar mais do texto */
         width: 100%;
-        gap: 8px; /* Reduzido */
-        order: 2;
+        gap: 10px; /* Espaço entre os links */
+        flex-direction: column; /* Links em coluna */
+        align-items: flex-start; /* Links alinhados à esquerda */
     }
     .link-inferior {
-        font-size: 15px; /* Um pouco menor */
-        gap: 6px; /* Reduzido */
+        font-size: 15px;
+        gap: 8px;
     }
     .link-inferior::before {
-        width: 12px; /* Um pouco menor */
+        width: 12px;
     }
     .social-icons-container {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px; /* Reduzido */
-        margin-top: 8px; /* Reduzido */
+        flex-direction: row; /* Ícones em linha */
+        align-items: center;
+        gap: 12px; /* Espaço entre os ícones */
+        margin-top: 10px; /* Espaço após os links SOBRE/PROJETOS */
     }
     .social-icon {
-        width: 18px; /* Um pouco menor */
-        height: 18px; /* Um pouco menor */
-    }
-    .location-info {
-        font-size: 15px; /* Um pouco menor */
-        padding-left: 0;
-        margin-top: 0;
-    }
-    .location-icon {
-        width: 18px; /* Um pouco menor */
-        height: 18px; /* Um pouco menor */
+        width: 18px;
+        height: 18px;
     }
 
-    .scroll-indicator-vertical {
-        display: none;
-    }
 }
 
 /* Telas pequenas (celulares grandes e tablets em retrato, ~481px a 768px) */
 @media (min-width: 481px) and (max-width: 768px) {
     .page {
-        padding: 30px; /* Reduzido o padding geral */
-        justify-content: flex-start;
-        min-height: auto;
-        height: auto;
+        padding: 30px; /* Ajuste o padding */
+        padding-top: 40px;
+        padding-bottom: 30px;
+        justify-content: flex-start; /* Conteúdo no topo */
+        align-items: flex-start; /* Conteúdo no canto esquerdo */
     }
 
     .header-title {
-        width: 100%;
-        margin-bottom: 15px; /* Reduzido */
+        margin-bottom: 20px;
+        text-align: left;
     }
     .site-title {
-        font-size: 38px; /* Um pouco menor */
+        font-size: 38px;
     }
     .site-subtitle {
-        font-size: 20px; /* Um pouco menor */
+        font-size: 20px;
     }
     .site-description {
-        font-size: 18px; /* Um pouco menor */
-        margin-bottom: 15px; /* Reduzido */
+        font-size: 18px;
+        margin-bottom: 20px;
     }
 
     .mensagem-direita {
-        margin-top: 0;
-        width: 100%;
+        margin-top: 25px; /* Reduzido para aproximar mais */
         text-align: left;
-        font-size: 18px; /* Um pouco menor */
-        opacity: 1;
-        order: 1;
-        margin-bottom: 15px; /* Reduzido */
+        font-size: 18px;
+        margin-bottom: 25px; /* Reduzido para aproximar mais o próximo bloco */
+        align-self: flex-start;
     }
 
     .links-inferiores {
-        margin-top: 0;
-        width: 100%;
-        gap: 10px; /* Reduzido */
-        order: 2;
+        margin-top: 90px; /* Ajuste para afastar mais do texto */
+        gap: 15px;
+        flex-direction: column; /* Links em coluna */
+        align-items: flex-start; /* Links alinhados à esquerda */
     }
     .link-inferior {
-        font-size: 18px; /* Um pouco menor */
+        font-size: 18px;
     }
     .social-icons-container {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 15px; /* Reduzido */
-        margin-top: 10px; /* Reduzido */
+        gap: 20px;
+        margin-top: 15px;
     }
-    .location-info {
-        font-size: 18px; /* Um pouco menor */
-        padding-left: 0;
-        margin-top: 0;
-    }
+
 }
 
 /* Telas médias (tablets em paisagem e notebooks pequenos, ~769px a 1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
     .page {
-        padding: 40px; /* Reduzido */
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: flex-start;
-        min-height: auto;
-        height: auto;
+        padding: 40px; /* Mais padding */
+        flex-direction: row; /* Volta a ter layout em linha */
+        flex-wrap: wrap; /* Permite que os elementos quebrem a linha */
+        justify-content: space-between; /* Espaço entre os elementos */
+        align-items: flex-start; /* Alinha ao topo */
     }
 
     .header-title {
-        position: relative;
-        top: 0;
-        left: 0;
-        width: calc(50% - 25px);
+        width: calc(50% - 25px); /* Mantém a largura dividida */
         padding-right: 20px;
-        max-width: none;
+        text-align: left;
     }
     .site-title {
-        font-size: 44px; /* Um pouco menor */
+        font-size: 44px;
     }
     .site-subtitle {
-        font-size: 22px; /* Um pouco menor */
+        font-size: 22px;
     }
     .site-description {
-        font-size: 22px; /* Um pouco menor */
+        font-size: 22px;
     }
 
     .mensagem-direita {
-        position: relative;
-        top: 0;
-        right: 0;
         width: calc(50% - 25px);
         text-align: right;
-        font-size: 22px; /* Um pouco menor */
-        opacity: 0.7;
+        font-size: 22px;
         margin-top: 0;
         padding-left: 20px;
         align-self: flex-start;
     }
 
     .links-inferiores {
-        position: relative;
-        bottom: 0;
-        left: 0;
-        margin-top: 20px; /* *** ALTERADO: Reduzido para ficar ainda mais perto *** */
+        margin-top: auto; /* Permanece auto para empurrar para o final da página */
         width: 100%;
-        align-items: center;
-        flex-direction: row;
-        justify-content: center;
-        gap: 20px; /* Reduzido */
-        flex-wrap: wrap;
-        padding-top: 0;
+        align-items: flex-start; /* Alinhado à esquerda */
+        flex-direction: column; /* Em coluna */
+        gap: 15px; /* Espaço entre os elementos */
     }
     .link-inferior {
-        font-size: 20px; /* Um pouco menor */
-        gap: 10px; /* Reduzido */
-    }
-    .location-info {
-        font-size: 20px; /* Um pouco menor */
-        padding-left: 0;
-        margin-top: 0;
+        font-size: 20px;
     }
     .social-icons-container {
-        margin-top: 0;
-        gap: 20px; /* Reduzido */
+        gap: 20px;
+        margin-top: 10px; /* Espaço após links */
     }
 
-    .scroll-indicator-vertical {
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-    }
 }
 
 /* Telas grandes (desktops padrão e maiores, a partir de 1025px) */
@@ -413,7 +317,7 @@ body {
         flex-wrap: wrap;
         justify-content: space-between;
         align-items: flex-start;
-        min-height: 100vh; /* Retorna ao 100vh para telas grandes */
+        min-height: 100vh;
     }
 
     .header-title {
@@ -422,6 +326,7 @@ body {
         left: 70px;
         width: auto;
         max-width: 500px;
+        text-align: left;
     }
     .site-title {
         font-size: 56px;
@@ -435,8 +340,8 @@ body {
 
     .mensagem-direita {
         position: absolute;
-        top: 130px;
-        right: 150px;
+        top: 130px; /* Ajuste para cima se necessário */
+        right: 70px; /* **AJUSTADO: Mais próximo da borda direita** */
         width: 450px;
         text-align: right;
         font-size: 28px;
@@ -447,7 +352,7 @@ body {
 
     .links-inferiores {
         position: absolute;
-        bottom: 70px;
+        bottom: 70px; /* **AJUSTADO: Move um pouco para cima para ficar visível** */
         left: 70px;
         flex-direction: column;
         align-items: flex-start;
@@ -460,13 +365,95 @@ body {
         font-size: 24px;
         gap: 10px;
     }
-    .location-info {
-        font-size: 24px;
-        padding-left: 48px;
-        margin-top: 15px;
-    }
 
-    .scroll-indicator-vertical {
-        display: flex;
-    }
+}
+
+
+.page {
+  position: relative; /* para posicionar elementos absolutos dentro */
+  min-height: 100vh;
+}
+
+/* Container do Sobre Mim com o svg abaixo */
+.sobre-mim-container {
+  position: absolute;
+  top: 120px;
+  left: 40px;
+  max-width: 300px;
+}
+
+.sobre-mim-title {
+  font-size: 36px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.svg-container {
+  margin-top: 25px;
+  max-width: 180px;
+  width: 100%;
+  height: auto;
+}
+
+.svg-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Skills do lado direito, alinhado com o Sobre Mim (mesma top) */
+.skills-title {
+  position: absolute;
+  top: 120px;
+  right: 40px;
+  font-size: 36px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .sobre-mim-container {
+    top: 90px;
+    left: 30px;
+    max-width: 250px;
+  }
+
+  .sobre-mim-title {
+    font-size: 28px;
+  }
+
+  .svg-container {
+    max-width: 140px;
+  }
+
+  .skills-title {
+    top: 90px;
+    right: 30px;
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sobre-mim-container {
+    top: 60px;
+    left: 20px;
+    max-width: 200px;
+  }
+
+  .sobre-mim-title {
+    font-size: 24px;
+  }
+
+  .svg-container {
+    max-width: 120px;
+  }
+
+  .skills-title {
+    top: 60px;
+    right: 20px;
+    font-size: 24px;
+  }
 }

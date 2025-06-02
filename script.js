@@ -1,95 +1,4 @@
-const canvas = document.getElementById('starsCanvas');
-const ctx = canvas.getContext('2d');
-
-// --- Ajustes Estrelas (do seu código anterior) ---
-// Removendo 'numStars' como constante global, pois será dinâmico
-const minSpeedX = 1.5;
-const maxSpeedX = 3.5;
-const speedYRange = 0.2;
-// --------------------
-
-let stars = [];
-let currentNumStars = 60; // Valor inicial para telas grandes, será ajustado
-
-// Função para ajustar a quantidade de estrelas baseada no tamanho da tela
-function updateStarQuantity() {
-    if (window.innerWidth <= 480) { // Telas MUITO pequenas (celulares em retrato)
-        currentNumStars = 20; // Exemplo: 20 estrelas
-    } else if (window.innerWidth <= 768) { // Telas pequenas (celulares grandes, tablets em retrato)
-        currentNumStars = 40; // Exemplo: 40 estrelas
-    } else { // Telas maiores (desktops, laptops)
-        currentNumStars = 60; // Quantidade original
-    }
-}
-
-// Redimensiona o canvas para ocupar a seção e recria as estrelas com a nova quantidade
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    updateStarQuantity(); // Atualiza a quantidade de estrelas antes de criá-las
-    createStars(); // Recria as estrelas com a 'currentNumStars'
-}
-
-// Função para criar as estrelas
-function createStars() {
-    stars = [];
-    for (let i = 0; i < currentNumStars; i++) { // Usa a quantidade dinâmica de estrelas
-        const speedX = Math.random() * (maxSpeedX - minSpeedX) + minSpeedX;
-        const speedY = (Math.random() - 0.5) * speedYRange;
-
-        stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 1.5,
-            speedX: speedX,
-            speedY: speedY
-        });
-    }
-}
-
-// Chamar uma vez no carregamento para configurar o canvas e as estrelas iniciais
-resizeCanvas(); 
-// Adicionar o listener para redimensionamento da janela
-window.addEventListener('resize', resizeCanvas);
-
-// Animação das estrelas
-function animateStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'white';
-
-    stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fill();
-
-        star.x += star.speedX;
-        star.y += star.speedY;
-
-        // Lógica de reaparecimento da estrela quando sai da tela
-        if (star.x > canvas.width + star.radius) {
-            star.x = -star.radius; // Reaparece do lado esquerdo
-            star.y = Math.random() * canvas.height; // Nova posição Y aleatória
-            // Novas velocidades para variar
-            star.speedX = Math.random() * (maxSpeedX - minSpeedX) + minSpeedX;
-            star.speedY = (Math.random() - 0.5) * speedYRange;
-        }
-
-        // Se sair pela parte superior ou inferior
-        if (star.y < -star.radius || star.y > canvas.height + star.radius) {
-            star.y = Math.random() * canvas.height; // Reaparece em Y aleatório
-            star.x = -star.radius; // Reaparece do lado esquerdo (melhor para fluxo contínuo)
-            star.speedX = Math.random() * (maxSpeedX - minSpeedX) + minSpeedX;
-            star.speedY = (Math.random() - 0.5) * speedYRange;
-        }
-    });
-
-    requestAnimationFrame(animateStars);
-}
-
-animateStars();
-
-// --- CÓDIGO PARA O EFEITO DE FADE NA ROLAGEM (mantido o mesmo) ---
-
+// --- EFEITO DE FADE NA ROLAGEM DA PÁGINA 1 ---
 const headerTitle = document.querySelector('.header-title');
 const mensagemDireita = document.querySelector('.mensagem-direita');
 const linksInferiores = document.querySelector('.links-inferiores');
@@ -121,5 +30,75 @@ function handleScrollFade() {
     });
 }
 
-window.addEventListener('scroll', handleScrollFade);
-document.addEventListener('DOMContentLoaded', handleScrollFade);
+// --- SCROLL SUAVE PARA PÁGINA 2 QUANDO CLICAR NO BOTÃO "SOBRE" ---
+const botaoSobre = document.querySelector('.link-inferior');
+
+botaoSobre.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    const pagina2 = document.getElementById('pagina2');
+    if (!pagina2) return;
+
+    // Scroll suave com duração maior para ficar mais lento
+    const targetPosition = pagina2.offsetTop;
+    const startPosition = window.scrollY;
+    const distance = targetPosition - startPosition;
+    const duration = 1800; // tempo em ms (aumente para deixar mais lento)
+    let startTime = null;
+
+    function animation(currentTime) {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        // easeInOutQuad para suavidade
+        const ease = easeInOutQuad(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, ease);
+        if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+        }
+    }
+
+    function easeInOutQuad(t, b, c, d) {
+        t /= d/2;
+        if (t < 1) return c/2*t*t + b;
+        t--;
+        return -c/2 * (t*(t-2) - 1) + b;
+    }
+
+    requestAnimationFrame(animation);
+});
+
+// --- FADE IN SUAVE EM SEQUÊNCIA NA PÁGINA 2 (SOBRE MIM + SVG) ---
+const sobreTitle = document.querySelector('.sobre-mim-title');
+const svgContainer = document.querySelector('.svg-container');
+
+function fadeInElementsSequential() {
+    if (!sobreTitle || !svgContainer) return;
+
+    const windowHeight = window.innerHeight;
+    const containerTop = sobreTitle.getBoundingClientRect().top;
+
+    // Quando o topo do título chegar a 150px do fim da janela, começa o fade in
+    if (containerTop < windowHeight - 150) {
+        if (!sobreTitle.classList.contains('visible')) {
+            sobreTitle.classList.add('visible');
+
+            setTimeout(() => {
+                svgContainer.classList.add('visible');
+            }, 600); // delay para a svg aparecer
+        }
+    } else {
+        sobreTitle.classList.remove('visible');
+        svgContainer.classList.remove('visible');
+    }
+}
+
+// EVENTOS DE SCROLL E LOAD
+window.addEventListener('scroll', () => {
+    handleScrollFade();
+    fadeInElementsSequential();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    handleScrollFade();
+    fadeInElementsSequential();
+});
