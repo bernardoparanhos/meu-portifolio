@@ -328,16 +328,21 @@ body {
     /* Adiciona uma linha cinza delicada entre os blocos (exceto o último) */
     .education-block,
     .experience-block,
-    .languages-block,
-    .contact-info-block,
-    .soft-skills-block { /* Note que o último bloco (software-skills-block) não tem borda */
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Linha cinza clara e transparente */
-        padding-bottom: 30px; /* Espaço entre o conteúdo e a linha */
-        margin-bottom: 30px; /* Espaço entre a linha e o próximo bloco */
+    .soft-skills-block { /* <<<< AQUI FOI REMOVIDO software-skills-block */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-bottom: 30px;
+        margin-bottom: 30px;
     }
 
-    /* Remove a borda do último bloco para evitar uma linha extra no final */
+    /* Nova linha para separar Software Skills de Línguas */
     .software-skills-block {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+    }
+
+    /* Remove a borda do último bloco (agora Contact Info) para evitar uma linha extra no final */
+    .contact-info-block {
         border-bottom: none;
         padding-bottom: 0;
         margin-bottom: 0;
@@ -442,12 +447,12 @@ body {
     .experience-block,
     .languages-block,
     .contact-info-block,
-    .soft-skills-block {
-        padding-bottom: 20px; /* Um pouco menos de espaço */
-        margin-bottom: 20px; /* Um pouco menos de espaço */
+    .soft-skills-block,
+    .software-skills-block {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
     }
 }
-
 
 /* ======================================= */
 /* MEDIA QUERIES PARA RESPONSIVIDADE (CONTINUAÇÃO) */
@@ -484,12 +489,11 @@ body {
     /* Reativar alguns blocos de acordo com o layout desejado em landscape */
     /* Exemplo de organização para landscape */
     .profile-picture-container {
-        width: 80px;  /* Definir uma largura fixa */
-        height: 80px; /* Definir uma altura fixa e IGUAL à largura */
+        width: 80px;
+        height: 80px;
         margin-bottom: 0;
-        /* align-self: center; // Manter se desejar centralizar verticalmente na linha Flexbox */
-        flex-shrink: 0; /* Impedir que o item encolha abaixo de seu tamanho */
-        flex-basis: 80px; /* Definir um tamanho base para o flex item */
+        flex-shrink: 0;
+        flex-basis: 80px;
     }
 
     .intro-block {
@@ -517,7 +521,7 @@ body {
     .software-skills-block {
         width: 45%;
         margin-top: 20px;
-        border-bottom: none;
+        border-bottom: none; /* Removendo bordas em landscape para evitar conflitos */
         padding-bottom: 0;
         margin-bottom: 20px;
     }
@@ -525,7 +529,7 @@ body {
     .experience-block {
         width: 95%;
         margin-top: 20px;
-        border-bottom: none;
+        border-bottom: none; /* Removendo bordas em landscape para evitar conflitos */
         padding-bottom: 0;
         margin-bottom: 20px;
     }
@@ -550,36 +554,5 @@ body {
     .experience-block ul {
         margin-left: 0;
         padding-left: 15px;
-    }
-}
-
-/* Para telas de CELULAR PEQUENO em modo PAISAGEM (landscape) */
-@media (max-width: 600px) and (max-height: 400px) and (orientation: landscape) {
-    .page {
-        padding: 15px 10px;
-    }
-
-    .profile-picture-container {
-        width: 60px;  /* Definir uma largura fixa */
-        height: 60px; /* Definir uma altura fixa e IGUAL à largura */
-        flex-shrink: 0; /* Impedir que o item encolha abaixo de seu tamanho */
-        flex-basis: 60px; /* Definir um tamanho base para o flex item */
-    }
-
-    .intro-block h1 {
-        font-size: 1.2em;
-    }
-    .intro-block p {
-        font-size: 0.7em;
-    }
-
-    .education-block,
-    .languages-block,
-    .contact-info-block,
-    .soft-skills-block,
-    .software-skills-block,
-    .experience-block {
-        width: 95%;
-        margin-top: 15px;
     }
 }
