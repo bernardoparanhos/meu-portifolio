@@ -1,4 +1,4 @@
-/* Reset básico */
+
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ body {
     color: white;
 }
 
-/* Base para todas as páginas */
+
 .page {
     width: 100%;
     min-height: 100vh;
@@ -27,7 +27,6 @@ body {
     overflow-y: auto;
 }
 
-/* Estilo específico para as outras páginas */
 #pagina1,
 #pagina2,
 #pagina3 {
@@ -69,7 +68,6 @@ body {
     fill: #FFFFFF;
 }
 
-/* CSS para o BLOCO DE INTRODUÇÃO */
 .intro-block {
     position: absolute;
     top: 30px;
@@ -94,7 +92,6 @@ body {
     font-weight: 400;
 }
 
-/* CSS para o BLOCO DE EDUCAÇÃO */
 .education-block {
     position: absolute;
     top: 230px;
@@ -125,7 +122,6 @@ body {
     font-weight: 400;
 }
 
-/* CSS para o BLOCO DE EXPERIÊNCIA */
 .experience-block {
     position: absolute;
     top: 230px;
@@ -190,7 +186,6 @@ body {
     margin-bottom: 5px;
 }
 
-/* CSS para o BLOCO DE INFORMAÇÕES DE CONTATO */
 .contact-info-block {
     position: absolute;
     top: 550px;
@@ -228,7 +223,6 @@ body {
     text-decoration: none;
 }
 
-/* CSS PARA O BLOCO DE SOFT SKILLS (CANTO DIREITO - POSIÇÃO ALINHADA HORIZONTALMENTE COM EXPERIÊNCIA E ARRASTADO PARA ESQUERDA) */
 .soft-skills-block {
     position: absolute;
     top: 230px;
@@ -259,7 +253,6 @@ body {
     line-height: 1.4;
 }
 
-/* CSS PARA O BLOCO DE SOFTWARE SKILLS (ABAIXO DO SOFT SKILLS, ARRASTADO PARA ESQUERDA) */
 .software-skills-block {
     position: absolute;
     top: 460px;
@@ -291,11 +284,6 @@ body {
 }
 
 
-/* ======================================= */
-/* MEDIA QUERIES PARA RESPONSIVIDADE */
-/* ======================================= */
-
-/* Para telas de TABLET (ex: 768px de largura ou menos) */
 @media (max-width: 768px) {
     .page {
         padding: 40px 20px;
@@ -303,7 +291,6 @@ body {
         justify-content: flex-start;
     }
 
-    /* Redefinir para posicionamento de fluxo de documento para empilhar */
     .profile-picture-container,
     .code-icon-container,
     .intro-block,
@@ -325,7 +312,6 @@ body {
         padding: 0;
     }
 
-    /* Adiciona uma linha cinza delicada entre os blocos (exceto o último) */
     .education-block,
     .experience-block,
     .soft-skills-block { /* <<<< AQUI FOI REMOVIDO software-skills-block */
@@ -334,14 +320,12 @@ body {
         margin-bottom: 30px;
     }
 
-    /* Nova linha para separar Software Skills de Línguas */
     .software-skills-block {
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         padding-bottom: 30px;
         margin-bottom: 30px;
     }
 
-    /* Remove a borda do último bloco (agora Contact Info) para evitar uma linha extra no final */
     .contact-info-block {
         border-bottom: none;
         padding-bottom: 0;
@@ -349,7 +333,6 @@ body {
     }
 
 
-    /* Ajustes específicos para cada bloco após remover absolute */
     .profile-picture-container {
         width: 100px;
         height: 100px;
@@ -405,7 +388,6 @@ body {
     }
 }
 
-/* Para telas de CELULAR (ex: 480px de largura ou menos) */
 @media (max-width: 480px) {
     .page {
         padding: 20px 15px;
@@ -442,7 +424,6 @@ body {
         font-size: 1em;
     }
 
-    /* Ajustes da borda para telas menores se necessário */
     .education-block,
     .experience-block,
     .languages-block,
@@ -454,11 +435,9 @@ body {
     }
 }
 
-/* ======================================= */
-/* MEDIA QUERIES PARA RESPONSIVIDADE (CONTINUAÇÃO) */
-/* ======================================= */
 
-/* Para telas em modo PAISAGEM (Landscape) em dispositivos móveis/pequenos tablets */
+
+
 @media (max-width: 992px) and (max-height: 500px) and (orientation: landscape) {
     .page {
         padding: 20px 40px;
@@ -468,7 +447,7 @@ body {
         align-items: flex-start;
     }
 
-    /* Resetar posicionamento para todos os blocos em landscape */
+
     .profile-picture-container,
     .code-icon-container,
     .intro-block,
@@ -486,8 +465,6 @@ body {
         flex-grow: 1;
     }
 
-    /* Reativar alguns blocos de acordo com o layout desejado em landscape */
-    /* Exemplo de organização para landscape */
     .profile-picture-container {
         width: 80px;
         height: 80px;
@@ -521,7 +498,7 @@ body {
     .software-skills-block {
         width: 45%;
         margin-top: 20px;
-        border-bottom: none; /* Removendo bordas em landscape para evitar conflitos */
+        border-bottom: none; 
         padding-bottom: 0;
         margin-bottom: 20px;
     }
@@ -529,12 +506,11 @@ body {
     .experience-block {
         width: 95%;
         margin-top: 20px;
-        border-bottom: none; /* Removendo bordas em landscape para evitar conflitos */
+        border-bottom: none; 
         padding-bottom: 0;
         margin-bottom: 20px;
     }
 
-    /* Opcional: Para telas um pouco maiores em landscape, pode-se tentar 3 colunas para habilidades */
     @media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
         .education-block,
         .languages-block,
@@ -548,7 +524,6 @@ body {
         }
     }
 
-    /* Redefinir margens das listas se necessário */
     .soft-skills-block ul,
     .software-skills-block ul,
     .experience-block ul {
