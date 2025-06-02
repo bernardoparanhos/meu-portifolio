@@ -149,14 +149,9 @@ body {
     font-weight: 700;
 }
 
-.experience-block p {
-    font-size: 1em;
-    margin-bottom: 2px;
-    color: #FFFFFF;
-    font-weight: 400;
-}
 
-.experience-block .experience-location-date {
+
+.experience-block {
     font-size: 0.9em;
     color: #DDDDDD;
     margin-bottom: 15px;
